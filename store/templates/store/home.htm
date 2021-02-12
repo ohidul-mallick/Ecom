@@ -1,0 +1,107 @@
+ {% extends 'store/base.htm' %}
+
+ {% block title %}
+ E-Com Home
+ {% endblock title %}
+
+
+ {% block content %}
+
+
+ <div class="row mt-5">
+     <div class="col-sm-3">
+         <a href="/" class="list-group-item list-group-item-action ">All Products</a>
+         {% for category in categories %}
+         <div class="list-group">
+             <a href="/?category={{category.id}}"
+                 class="list-group-item list-group-item-action ">{{category.name}}</a>
+
+         </div>
+         {% endfor %}
+
+     </div>
+
+
+
+
+
+
+
+
+
+     <div class="col-sm-8">
+         <div class="row mx-auto">
+             {% for product in products %}
+
+             <div class="card mx-auto mt-3" style="width: 15rem;">
+                 <img src="{{product.image.url}}" class="card-img-top" alt="...">
+                 <div class="card-body">
+                     <h5 class="card-title">{{product.name}}</h5>
+                     <h5 class="card-title">{{product.image.url}}</h5>
+                     <p class="card-text"><b>{{product.price}}</b></p>
+                     <p class="card-text">{{product.desc}}</p>
+                     <a href="#" class="btn btn-primary">Add Cart</a>
+                 </div>
+             </div>
+             {% endfor %}
+
+         </div>
+     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <!-- <div id='products' class="col-lg-8 mx-auto">
+
+         <div class="row mx-auto">
+             {% for product in products %}
+             <div class="card mx-auto mb-3" style="width: 15rem;">
+                 <img src="{{product.image.url}}" class="card-img-top" alt="...">
+                 <div class="card-body">
+                     <h5 class="card-title">{{product.name}}</h5>
+                     <p class="card-text"><b>{{product.price}}</b></p>
+                     <p class="card-text">{{product.description}}</p>
+                     <a href="#" class="btn btn-primary border btn-sm">Add To Cart</a>
+                 </div>
+             </div>
+
+             {% endfor %}
+         </div>
+
+     </div> -->
+
+
+
+
+
+
+
+
+
+ </div>
+
+
+
+
+
+ {% endblock content %}

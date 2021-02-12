@@ -1,0 +1,56 @@
+{% extends 'store/base.htm' %}
+
+
+{% block content %}
+
+<h1 style="text-align: center;">Welcome to SIgn Up Page</h1>
+
+<div class="container">
+    <div class="text-center font-weight-bold p-4">
+
+        {% if messages %}
+        {% for message in messages %}
+            <strong {% if message.tags %} class="alert alert-success" {% endif %}>{{message}}</strong>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+
+    <div class="p-4 m-4 mx-auto">
+
+        <div class="col-sm-6 border rounded ">
+            <h4 class="alert alert-info border rounded">Create An Account</h4>
+            <form action="" method="post" class="p-3" novalidate>
+                {% csrf_token %}
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{error}}</strong>
+                </div>
+                {% endif %}
+
+                {% for fm in form %}
+                <div class="mb-3">
+                    <!-- {% ifequal fm.label_tag phone %}
+                    <p>Hello</p>
+                    {% endifequal %} -->
+                    <label class="form-label">{{fm.label_tag}}</label>
+                    <span type="text">{{fm}}</span>
+                    <span style="color: red;">{{fm.errors|striptags}}</span>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Signup</button>
+            </form>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+{% endblock content %}
