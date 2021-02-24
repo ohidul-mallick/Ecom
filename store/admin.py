@@ -12,6 +12,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['id','name','email','phone','password']
+# @admin.register(Customer)
+# class CustomerAdmin(admin.ModelAdmin):
+#     list_display = ['id','name','email','phone','password']

@@ -1,20 +1,29 @@
  {% extends 'store/base.htm' %}
-
  {% block title %}
  E-Com Home
  {% endblock title %}
 
-
+ {% load cart %}
  {% block content %}
 
+ {% load cart_tag %}
+ <div class="text-center font-weight-bold p-4">
+
+     {% if messages %}
+     {% for message in messages %}
+     <strong {% if message.tags %} class="alert alert-success" {% endif %}>{{message}}</strong>
+
+     {% endfor %}
+     {% endif %}
+
+ </div>
 
  <div class="row mt-5">
      <div class="col-sm-3">
          <a href="/" class="list-group-item list-group-item-action ">All Products</a>
          {% for category in categories %}
          <div class="list-group">
-             <a href="/?category={{category.id}}"
-                 class="list-group-item list-group-item-action ">{{category.name}}</a>
+             <a href="/?category={{category.id}}" class="list-group-item list-group-item-action ">{{category.name}}</a>
 
          </div>
          {% endfor %}
@@ -22,80 +31,66 @@
      </div>
 
 
-
-
-
-
-
-
-
      <div class="col-sm-8">
          <div class="row mx-auto">
              {% for product in products %}
 
-             <div class="card mx-auto mt-3" style="width: 15rem;">
+             <div class="card mx-auto mt-3 pd-2" style="width: 15rem;">
                  <img src="{{product.image.url}}" class="card-img-top" alt="...">
-                 <div class="card-body">
+
+                 <div class="card-body ">
                      <h5 class="card-title">{{product.name}}</h5>
-                     <h5 class="card-title">{{product.image.url}}</h5>
+
                      <p class="card-text"><b>{{product.price}}</b></p>
-                     <p class="card-text">{{product.desc}}</p>
-                     <a href="#" class="btn btn-primary">Add Cart</a>
+                     <a href="{% url 'cart_clear' %}">Clear Cart</a>
+                     <a href="{% url 'item_increment' product.id %}">Increament</a>
+                     <a href="{% url 'item_decrement' product.id %}">Decrement</a>
+                     <a href="{% url 'item_remove' product.id %}">Remove</a>
+
+
+
+
+
+
+
+
+                     <div class="card-footer row p-0 border no-gutters alert-secondary">
+                         {% if product|is_in_cart:request.session.cart %}
+                         {% for key,value in request.session.cart.items %}
+                         {% if product|equal:key %}
+
+                         <!-- Decrement Cart Item -->
+                         <a href="{% url 'item_decrement' product.id %}"><input type="submit" value=" - "
+                             class="col-2 btn btn-sm btn-light font-weight-bold"></a>
+
+                         <div class="text-center col">{{value.quantity}}</div>
+
+                         <!-- Increment Cart Item -->
+                         <a href="{% url 'item_increment' product.id %}"><input type="submit" value=" + "
+                             class="col-2 btn btn-sm btn-light"></a>
+                             {% endif %}
+                             {% endfor %}
+                         {% else %}
+                         <a href="{% url 'cart_add' product.id %}"><input type="submit" value="Add To Cart"
+                                 class=" form-control float-right btn btn-secondary border btn-sm font-weight-bold"></a>
+                         {% endif %}
+                     </div>
+
+
+
+
                  </div>
+
+
+
+
+
+
              </div>
              {% endfor %}
 
          </div>
      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     <!-- <div id='products' class="col-lg-8 mx-auto">
-
-         <div class="row mx-auto">
-             {% for product in products %}
-             <div class="card mx-auto mb-3" style="width: 15rem;">
-                 <img src="{{product.image.url}}" class="card-img-top" alt="...">
-                 <div class="card-body">
-                     <h5 class="card-title">{{product.name}}</h5>
-                     <p class="card-text"><b>{{product.price}}</b></p>
-                     <p class="card-text">{{product.description}}</p>
-                     <a href="#" class="btn btn-primary border btn-sm">Add To Cart</a>
-                 </div>
-             </div>
-
-             {% endfor %}
-         </div>
-
-     </div> -->
-
-
-
-
-
-
-
 
 
  </div>
