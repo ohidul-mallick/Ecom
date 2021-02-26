@@ -15,141 +15,209 @@ E-Com Home
 
 
 <div class="row">
-  <div class="col-4">
+  <div class="col-4 ms-4">
     <h5 class="mb-4">Cart (<span>{{request.session.cart|length}}</span> items)</h5>
   </div>
 
-  <div class="col-5 offset-3">
-    <h4>To Clear Whole Cart Click Here <a href="{% url 'cart_clear' %}">Clear Cart</a></h4>
+  <div class="col-5 offset-2">
+
+
+    <!-- Modal For Clear Cart Fully -->
+
+
+    <!-- Button trigger modal -->
+    <h4 class="text-primary justify">To Clear Whole Cart Click Here <button type="button" class="btn btn-danger"
+        data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Clear Cart
+      </button></h4>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-primary" id="staticBackdropLabel">Clear Whole Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <strong class="text-dark muted">This Will Completely Empty Your Cart. All item Present in Your Cart Will
+              Lost Completely</strong>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="{% url 'cart_clear' %}"><button type="button" class="btn btn-danger ">Yes , Clear Cart</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- End Of Modal For Clear Cart Fully -->
+
+
+
   </div>
 </div>
-
-
-
 
 
 <!--Grid row-->
 <div class="row">
 
-    <!--Grid column-->
-    <div class="col-8">
+  <!--Grid column-->
+  <div class="col-8">
 
-      <!-- Card -->
-      <div class="card wish-list mb-3 ps-5">
-        <div class="card-body">
-          {% for key,value in request.session.cart.items %}
+    <!-- Card -->
+    <div class="card wish-list mb-3 ps-5">
+      <div class="card-body">
+        {% for key,value in request.session.cart.items %}
 
-          <div class="row mb-4">
+        <div class="row mb-4">
 
-            <div class="row pb-5">
-              <div class="col-md-5 col-lg-3 col-xl-3 ">
-                <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                  {% for product in products %}
-                  {% if product|equal:key %}
-                  <img class="img-fluid img-thumbnail w-100" src="{{product.image.url}}" alt="Sample">
-                  {% endif %}
-                  {% endfor %}
-
-                </div>
-              </div>
-
-              <div class="col-md-7 col-lg-8 col-xl-8 ">
-                <h3>{{value.name}}</h3>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <p class="mb-3 text-muted text-uppercase small">{{value.quantity}} In Cart</p>
-                  </div>
-
-<!-- Work Here -->
-
-                  <div class="btn-group float-right" role="group" aria-label="Basic example">
-                    
-                    <a href=""><button type="button" class="btn btn-primary">Left</button></a>
-                    <a href=""><button type="button" class="btn btn-primary">Middle</button></a>
-                    <a href=""><button type="button" class="btn btn-primary">Right</button></a>
-                    
-                  </div>
-
-<!-- Work Here -->
-
-
-
-
-
-
-
-
-                </div>
-                <p class="mb-2 text-muted text-uppercase small">Color : Blue</p>
-                <p class="mb-3 text-muted text-uppercase small">Size: M</p>
-                <p class="mb-3 text-muted text-uppercase small">Price : {{value.price}}₹</p>
-                
-                <br>
+          <div class="row pb-5">
+            <div class="col-md-5 col-lg-3 col-xl-3 ">
+              <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
                 {% for product in products %}
                 {% if product|equal:key %}
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <a href="{% url 'item_remove' product.id %}" type="button"
-                      class="card-link-secondary small text-uppercase mr-3"><i class="fas fa-trash-alt mr-1"></i> Remove
-                      item </a>
-                    <a href="#!" type="button" class="card-link-secondary small text-uppercase"><i
-                        class="fas fa-heart mr-1"></i> Move to wish list </a>
-                  </div>
-                  <p class="mb-0"><span><strong>Total {{ value.price|multiply:value.quantity }}₹</strong></span></p>
-                </div>
+                <img class="img-fluid img-thumbnail w-100" src="{{product.image.url}}" alt="Sample">
                 {% endif %}
                 {% endfor %}
 
               </div>
+            </div>
+
+            <div class="col-md-7 col-lg-8 col-xl-8 ">
+              <h3 class="text-uppercase">{{value.name|capfirst}}</h3>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <p class="mb-3 text-muted text-uppercase small">{{value.quantity}} In Cart</p>
+                </div>
+
+
+                <!-- Cart Increament / Decreament -->
+
+                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                  {% for product in products %}
+                  {% if product|equal:key %}
+                  <a href="{% url 'item_decrement' product.id %}"><input type="submit" value=" - "
+                      class="btn btn-light font-weight-bold"></a>
+
+                  <a href="{% url 'cart_detail' %}"><input type="submit" value="{{value.quantity}} Item"
+                      class="text-center btn btn-light"> </a>
+
+                  <a href="{% url 'item_increment' product.id %}"><input type="submit" value=" + "
+                      class="btn btn-light"></a>
+
+                  {% endif %}
+                  {% endfor %}
+
+                </div>
+
+                <!-- End Of Cart Increament / Decreament -->
+
+
+              </div>
+              <p class="mb-2 text-muted text-uppercase small">Color : Blue</p>
+              <p class="mb-3 text-muted text-uppercase small">Size: M</p>
+              <p class="mb-3 text-muted text-uppercase small">Price : {{value.price}}₹</p>
+
+              <br>
+              {% for product in products %}
+              {% if product|equal:key %}
+              <div class="d-flex justify-content-between align-items-center">
+
+                <!-- Modal For Remove Product From Cart  -->
+
+                <div>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="card-link-secondary small text-uppercase  btn btn-sm btn-primary"
+                    data-bs-toggle="modal" data-bs-target="#cartstaticBackdrop">
+                    <i class="fas fa-trash-alt mr-1 pe-1"></i> Remove
+                    item </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="cartstaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title text-primary" id="staticBackdropLabel">Remove Item From Cart</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <strong class="text-dark muted">This Will Remove This Item From Cart Completely</strong>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <a href="{% url 'item_remove' product.id %}"><button type="button" class="btn btn-danger ">Yes
+                              , Remove</button></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <a href="#!" type="button" class="card-link-secondary small text-uppercase btn btn-sm btn-primary"><i
+                      class="fas fa-heart mr-1"></i> Move to wish list </a>
+
+                </div>
+
+                <!-- End Of Modal For Remove Product From Cart  -->
+
+                <p class="mb-0"><span><strong>Total {{ value.price|multiply:value.quantity }}₹</strong></span></p>
+              </div>
+              {% endif %}
+              {% endfor %}
 
             </div>
 
           </div>
-          {% endfor %}
-          <hr class="mb-4">
-
-          <p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Do not delay the purchase, adding
-            items to your cart does not mean booking them.</p>
 
         </div>
+        {% endfor %}
+        <hr class="mb-4">
+
+        <p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Do not delay the purchase, adding
+          items to your cart does not mean booking them.</p>
+
       </div>
-      <!-- Card -->
-
-      <!-- Card -->
-      <div class="card mb-3">
-        <div class="card-body">
-
-          <h5 class="mb-4">Expected shipping delivery</h5>
-
-          <p class="mb-0"> Thu., 12.03. - Mon., 16.03.</p>
-        </div>
-      </div>
-      <!-- Card -->
-
-      <!-- Card -->
-      <div class="card mb-3">
-        <div class="card-body">
-
-          <h5 class="mb-4">We accept</h5>
-
-          <img class="mr-2" width="45px"
-            src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-            alt="Visa">
-          <img class="mr-2" width="45px"
-            src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-            alt="American Express">
-          <img class="mr-2" width="45px"
-            src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-            alt="Mastercard">
-          <img class="mr-2" width="45px"
-            src="https://z9t4u9f6.stackpathcdn.com/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png"
-            alt="PayPal acceptance mark">
-        </div>
-      </div>
-      <!-- Card -->
-
     </div>
-    <!--Grid column-->
+    <!-- Card -->
+
+    <!-- Card -->
+    <div class="card mb-3">
+      <div class="card-body">
+
+        <h5 class="mb-4">Expected shipping delivery</h5>
+
+        <p class="mb-0"> Thu., 12.03. - Mon., 16.03.</p>
+      </div>
+    </div>
+    <!-- Card -->
+
+    <!-- Card -->
+    <div class="card mb-3">
+      <div class="card-body">
+
+        <h5 class="mb-4">We accept</h5>
+
+        <img class="mr-2" width="45px"
+          src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg" alt="Visa">
+        <img class="mr-2" width="45px"
+          src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+          alt="American Express">
+        <img class="mr-2" width="45px"
+          src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+          alt="Mastercard">
+        <img class="mr-2" width="45px"
+          src="https://z9t4u9f6.stackpathcdn.com/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png"
+          alt="PayPal acceptance mark">
+      </div>
+    </div>
+    <!-- Card -->
+
+  </div>
+  <!--Grid column-->
 
 
 
@@ -182,7 +250,8 @@ E-Com Home
           </li>
         </ul>
 
-       <a href="/checkout/"><button type="button" class="btn btn-primary btn-block waves-effect waves-light">go to checkout</button></a> 
+        <a href="/checkout/"><button type="button" class="btn btn-primary btn-block waves-effect waves-light">go to
+            checkout</button></a>
 
       </div>
     </div>

@@ -45,10 +45,10 @@
              {% for product in products %}
 
              <div class="card mx-auto mt-3 pd-2" style="width: 15rem;">
-                 <img src="{{product.image.url}}" class="card-img-top img-fluid img-thumbnail" alt="...">
+                 <img src="{{product.image.url}}" class="card-img-top img-fluid " alt="...">
 
                  <div class="card-body ">
-                     <h5 class="card-title">{{product.name}}</h5>
+                     <h5 class="card-title">{{product.name|capfirst}}</h5>
 
                      <p class="card-text"><b>{{product.price}}</b></p>
                      
@@ -77,11 +77,6 @@
                          {% endif %}
                          {% endfor %}
                          {% else %}
-                         <!-- <form action="" method="get">
-                            
-                            <a href="{% url 'cart_add' product.id %}"><input type="submit" value="Add To Cart"
-                                class=" form-control float-right btn btn-info border font-weight-bold"></a>
-                         </form> -->
                          <a href="{% url 'cart_add' product.id %}"><input type="submit" value="Add To Cart"
                                  class=" form-control float-right btn btn-info border font-weight-bold"></a>
                          {% endif %}

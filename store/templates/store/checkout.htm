@@ -8,15 +8,13 @@ E-Com Checkout
 
 {% load cart %}
 {% load cart_tag %}
-
-
-
+<br>
 <!--Main layout-->
 <main class="mt-5 pt-0">
     <div class="container wow fadeIn">
 
         <!-- Heading -->
-        <h2 class="my-5 h2 text-center">Checkout form</h2>
+        <h2 class="my-5 h2 text-center">Checkout Form</h2>
 
         <!--Grid row-->
         <div class="row">
@@ -217,27 +215,42 @@ E-Com Checkout
 
             <!--Grid column-->
             <div class="col-md-4 mb-4">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Your cart</span></h4>
+                <!-- <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span></h4> -->
                 <!-- Heading -->
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     {% if request.session.cart %}
-                    <span class="text-muted">{{request.session.cart|length}} items</span>
+                    <span class="text-muted">Your cart({{request.session.cart|length}} items)</span>
+                    
                     {% else %}
-                    <span class="badge badge-secondary badge-pill">0 items</span>
+                    <span class="badge badge-secondary badge-pill">Your cart(0 items)</span>
                     {% endif %}
                 </h4>
+                <strong class="text-muted pb-5">PRICE DETAILS</strong>
+
+<!-- Showing All Cart Items -->
+
                 {% for key,value in request.session.cart.items %}
                 <!-- Cart -->
-                <ul class="list-group mb-3 z-depth-1">
+                <ul class="list-group mb-3 border z-depth-1 ">
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">{{value.name}}</h6>
+                            <h6 class="my-0">{{value.name|capfirst}}</h6>
                             <small class="text-muted">{{value.quantity}} in Cart</small>
                         </div>
                         <span class="text-muted">Total ₹{{ value.price|multiply:value.quantity }}</span>
                     </li>
+                    
                     {% endfor %}
+<!-- End Of Showing All Cart Items -->
+
+                    <br>
+                    <li class="list-group-item d-flex justify-content-between  mt-2">
+                        <span>Delivery Charges</span>
+                        <span class="text-success">Free <del class="text-dark">₹70</del></span>
+                        
+                    </li>
+
                     <li class="list-group-item d-flex justify-content-between bg-light">
                         <div class="text-success">
                             <h6 class="my-0">Promo code</h6>
@@ -245,9 +258,9 @@ E-Com Checkout
                         </div>
                         <span class="text-success">-₹0.00</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between">
+                    <li class="list-group-item d-flex justify-content-between  mt-2">
                         <span>Grand Total (RS)</span>
-                        <strong>₹{{ abc|cartTotal:request.session.cart }}</strong>
+                        <strong class="text-primary">₹{{ abc|cartTotal:request.session.cart }}</strong>
                     </li>
                 </ul>
                 <!-- Cart -->
@@ -258,7 +271,7 @@ E-Com Checkout
                         <input type="text" class="form-control" placeholder="Promo code"
                             aria-label="Recipient's username" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
+                            <button class="btn btn-info btn-md waves-effect m-0" type="button">Redeem</button>
                         </div>
                     </div>
                 </form>

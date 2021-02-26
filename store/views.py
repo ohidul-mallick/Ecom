@@ -132,7 +132,7 @@ def item_increment(request, id):
     cart = Cart(request)
     product = Products.objects.get(id=id)
     cart.add(product=product)
-    return redirect("homepage")
+    return redirect("cart_detail")
 
 
 @login_required(login_url="/login")
@@ -140,7 +140,7 @@ def item_decrement(request, id):
     cart = Cart(request)
     product = Products.objects.get(id=id)
     cart.decrement(product=product)
-    return redirect("homepage")
+    return redirect("cart_detail")
 
 @login_required(login_url="/login")
 def item_remove(request, id):
