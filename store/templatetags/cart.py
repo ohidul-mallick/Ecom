@@ -18,3 +18,13 @@ def equal(product,key):
         return True
     else:
         return False
+
+
+@register.filter()
+def cartTotal(product,cart):
+    Sum=0
+    for key,value in cart.items():
+        Sum=Sum+(value['quantity']*float(value['price']))
+
+    return Sum
+

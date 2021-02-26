@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 # Create your models here.
 
 class Category(models.Model):
@@ -35,3 +35,15 @@ class Customer(models.Model):
         return Customer.objects.get(name=name)
 
 
+class Order(models.Model):
+    product=models.ForeignKey(Products, on_delete=models.CASCADE)
+
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+
+    quantity = models.IntegerField(default=1)
+
+    price=models.FloatField()
+
+    address=models.CharField(max_length=150,blank=True,null=True)
+    phone=models.IntegerField(blank=True,null=True)
+    date = models.DateField(default=datetime.datetime.today)

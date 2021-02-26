@@ -10,30 +10,11 @@ from django.contrib.auth import authenticate,login,logout
 from django.utils.decorators import method_decorator
 from django.views import View
 from cart.cart import Cart
+import random
 
 
 
 class Index(View):
-    # # cart={}
-    # def post(self,request):
-    #     product=request.POST.get('product')
-    #     print(product)
-
-    #     cart=request.session.get('cart')
-    #     # cart[product]=cart.get(product,0)+1
-    #     if cart:
-    #         quantity=cart.get(product)
-    #         if quantity:
-    #             cart[product]=quantity+1
-    #         else:
-    #             cart[product]=1
-    #     else:
-    #         cart={}
-    #         cart[product]=1
-    #     request.session['cart']=cart
-    #     print('Cart : ',request.session['cart'])
-
-    #     return redirect('homepage')
 
 
     def get(self,request):
@@ -46,6 +27,7 @@ class Index(View):
         else:
             product = Products.objects.all()
         return render(request,'store/home.htm',{'products':product,'categories':categories})
+
 
 
 def signUp(request):
@@ -178,4 +160,10 @@ def cart_clear(request):
 @login_required(login_url="/login")
 def cart_detail(request):
     product=Products.objects.all()
-    return render(request, 'store/tempCard_detail.htm',{'products':product})
+    return render(request, 'store/cart_detail.htm',{'products':product})
+
+
+
+
+def checkout(request):
+    return render(request,'store/checkout.htm')
