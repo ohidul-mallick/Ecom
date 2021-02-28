@@ -38,7 +38,10 @@ class Customer(models.Model):
 class Order(models.Model):
     product=models.ForeignKey(Products, on_delete=models.CASCADE)
 
-    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE) 
+    first_name=models.CharField(max_length=50,blank=True,null=True)
+    last_name=models.CharField(max_length=50,blank=True,null=True)
+    email=models.EmailField(max_length=50,blank=True,null=True)
 
     quantity = models.IntegerField(default=1)
 

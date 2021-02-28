@@ -1,20 +1,21 @@
 from django import forms
 from django.core import validators
-from .models import Customer
+from .models import Customer,Order
 from django.contrib.auth.models import User
 from django.utils.translation import gettext,gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UsernameField
 
-# class SignupForm(forms.ModelForm):
-#     class Meta:
-#         model = Customer
-#         fields =['name','email','phone','password','confirm_password']
-#         widgets={'name':forms.TextInput(attrs={'autofocus': True,'class':"form-control form-control-sm",'min':'0'}),
-#                     'email':forms.EmailInput(attrs={'class':"form-control form-control-sm",'placeholder':'Example@example.com'}),
-#                     'phone':forms.NumberInput(attrs={'class':"form-control form-control-sm"}),
-#                     'password':forms.PasswordInput(attrs={'class':"form-control form-control-sm","oncopy":"return false","onpaste":"return false"}),
-#                     'confirm_password':forms.PasswordInput(attrs={'class':"form-control form-control-sm","oncopy":"return false","onpaste":"return false"}),
-#                 }
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields =['first_name','last_name','address','email','phone']
+        widgets={'first_name':forms.TextInput(attrs={'autofocus': True,'class':"form-control form-control-sm",'min':'0'}),
+                    'last_name':forms.TextInput(attrs={'class':"form-control form-control-sm",'min':'0'}),
+                    'email':forms.EmailInput(attrs={'class':"form-control form-control-sm",'placeholder':'Example@example.com'}),
+                    'phone':forms.NumberInput(attrs={'class':"form-control form-control-sm"}),
+                    'address':forms.Textarea(attrs={'class':"form-control form-control-sm",'style':'resize:none;'}),
+                    
+                }
     
 
 # class LoginForm(forms.Form):

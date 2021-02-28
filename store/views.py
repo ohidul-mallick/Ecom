@@ -5,12 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from .forms import SignupForm
 
-from .forms import LoginForm
+from .forms import LoginForm,OrderForm
 from django.contrib.auth import authenticate,login,logout
 from django.utils.decorators import method_decorator
 from django.views import View
 from cart.cart import Cart
 import random
+from datetime import date
 
 
 
@@ -165,5 +166,41 @@ def cart_detail(request):
 
 
 
-def checkout(request):
-    return render(request,'store/checkout.htm')
+
+
+class checkoutView(View):
+    def get(self,request):
+        od=OrderForm()
+        return render(request,'store/checkout.htm',{'orders':od})
+    
+    def post(self,request):
+        od=OrderForm(request.POST)
+        cart=request.session.get('cart')
+        cartObj=cart.values()
+        # print(cartObj)
+        for item in cartObj:
+            userid = item['userid']
+            Price=item['price']
+            Quantity=item['quantity']
+
+
+        print(userid)
+        print(Price)
+        print(Quantity)
+        customer=Customer.objects.filter(id=userid)
+        # print(customer)
+        for c in customer:
+            print(c)
+            print(' c name',c.email)
+        if od.is_valid():
+            fname=od.cleaned_data['first_name']
+            lname=od.cleaned_data['last_name']
+            email=od.cleaned_data['email']
+            address=od.cleaned_data['address']
+            phone=od.cleaned_data['phone']
+            dt=date.today()
+            
+            
+            # print(fname)
+        od=OrderForm()
+        return render(request,'store/checkout.htm',{'orders':od})

@@ -14,7 +14,19 @@ E-Com Checkout
     <div class="container wow fadeIn">
 
         <!-- Heading -->
-        <h2 class="my-5 h2 text-center">Checkout Form</h2>
+        <h2 class="my-5 h2 text-center">Check Out Your Carts</h2>
+
+        {% if messages %}
+        <div class="text-center font-weight-bold p-4">
+
+
+            {% for message in messages %}
+            <strong {% if message.tags %} class="alert alert-success" {% endif %}>{{message}}</strong>
+            {% endfor %}
+
+        </div>
+        {% endif %}
+
 
         <!--Grid row-->
         <div class="row">
@@ -25,9 +37,32 @@ E-Com Checkout
                 <!--Card-->
                 <div class="card">
 
-                    <!--Card content-->
-                    <form class="card-body">
 
+                    <!--Card content-->
+                    <!-- <form class="card-body"> -->
+
+                    <form action="" method="post" class="card-body">
+                        {% csrf_token %}
+                        {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{{error}}</strong>
+                        </div>
+                        {% endif %}
+
+                        {% for fm in orders %}
+                        <div class="mb-3">
+
+                            <label class="form-label">{{fm.label_tag}}</label>
+                            <span type="text">{{fm}} </span>
+                            <span style="color: red;">{{fm.errors|striptags}}</span>
+                        </div>
+                        {% endfor %}
+
+
+
+
+
+                        {% comment %}
                         <!--Grid row-->
                         <div class="row">
 
@@ -61,32 +96,33 @@ E-Com Checkout
                         <!--Grid row-->
 
                         <!--Username-->
-                        <div class="md-form input-group pl-0 mb-5">
+                        <!-- <div class="md-form input-group pl-0 mb-5">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">@</span>
                             </div>
                             <input type="text" class="form-control py-0" placeholder="Username"
                                 aria-describedby="basic-addon1">
-                        </div>
+                        </div> -->
 
                         <!--email-->
-                        <div class="md-form mb-5">
+                        <!-- <div class="md-form mt-3 mb-3">
                             <input type="text" id="email" class="form-control" placeholder="youremail@example.com">
                             <label for="email" class="">Email (optional)</label>
-                        </div>
+                        </div> -->
 
                         <!--address-->
-                        <div class="md-form mb-5">
+                        <!-- <div class="md-form mb-5">
                             <input type="text" id="address" class="form-control" placeholder="1234 Main St">
                             <label for="address" class="">Address</label>
-                        </div>
+                        </div> -->
 
                         <!--address-2-->
-                        <div class="md-form mb-5">
+                        <!-- <div class="md-form mb-5">
                             <input type="text" id="address-2" class="form-control" placeholder="Apartment or suite">
                             <label for="address-2" class="">Address 2 (optional)</label>
-                        </div>
+                        </div> -->
 
+                        {% endcomment %}
                         <!--Grid row-->
                         <div class="row">
 
@@ -94,7 +130,7 @@ E-Com Checkout
                             <div class="col-lg-4 col-md-12 mb-4">
 
                                 <label for="country">Country</label>
-                                <select class="custom-select d-block w-100" id="country" required>
+                                <select class="custom-select d-block w-100" id="country">
                                     <option value="">Choose...</option>
                                     <option>India</option>
                                 </select>
@@ -109,7 +145,7 @@ E-Com Checkout
                             <div class="col-lg-4 col-md-6 mb-4">
 
                                 <label for="state">State</label>
-                                <select class="custom-select d-block w-100" id="state" required>
+                                <select class="custom-select d-block w-100" id="state">
                                     <option value="">Choose...</option>
                                     <option>West Bengal</option>
                                 </select>
@@ -124,7 +160,7 @@ E-Com Checkout
                             <div class="col-lg-4 col-md-6 mb-4">
 
                                 <label for="zip">Zip</label>
-                                <input type="text" class="form-control" id="zip" placeholder="" required>
+                                <input type="text" class="form-control" id="zip" placeholder="">
                                 <div class="invalid-feedback">
                                     Zip code required.
                                 </div>
@@ -153,24 +189,22 @@ E-Com Checkout
                         <div class="d-block my-3">
                             <div class="custom-control custom-radio">
                                 <input id="credit" name="paymentMethod" type="radio" class="custom-control-input"
-                                    checked required>
+                                    checked>
                                 <label class="custom-control-label" for="credit">Credit card</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input"
-                                    required>
+                                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input">
                                 <label class="custom-control-label" for="debit">Debit card</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input"
-                                    required>
+                                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input">
                                 <label class="custom-control-label" for="paypal">Paypal</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="cc-name">Name on card</label>
-                                <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                <input type="text" class="form-control" id="cc-name" placeholder="">
                                 <small class="text-muted">Full name as displayed on card</small>
                                 <div class="invalid-feedback">
                                     Name on card is required
@@ -178,7 +212,7 @@ E-Com Checkout
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="cc-number">Credit card number</label>
-                                <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                <input type="text" class="form-control" id="cc-number" placeholder="">
                                 <div class="invalid-feedback">
                                     Credit card number is required
                                 </div>
@@ -187,14 +221,14 @@ E-Com Checkout
                         <div class="row">
                             <div class="col-md-3 mb-3">
                                 <label for="cc-expiration">Expiration</label>
-                                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                                <input type="text" class="form-control" id="cc-expiration" placeholder="">
                                 <div class="invalid-feedback">
                                     Expiration date required
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="cc-expiration">CVV</label>
-                                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                                <input type="text" class="form-control" id="cc-cvv" placeholder="">
                                 <div class="invalid-feedback">
                                     Security code required
                                 </div>
@@ -202,8 +236,10 @@ E-Com Checkout
                         </div>
                         <hr class="mb-4">
                         <button class="btn btn-primary btn-lg btn-block" type="submit">Place Order</button>
-
                     </form>
+                    <!-- </form> -->
+
+
 
                 </div>
                 <!--/.Card-->
@@ -221,14 +257,14 @@ E-Com Checkout
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     {% if request.session.cart %}
                     <span class="text-muted">Your cart({{request.session.cart|length}} items)</span>
-                    
+
                     {% else %}
                     <span class="badge badge-secondary badge-pill">Your cart(0 items)</span>
                     {% endif %}
                 </h4>
                 <strong class="text-muted pb-5">PRICE DETAILS</strong>
 
-<!-- Showing All Cart Items -->
+                <!-- Showing All Cart Items -->
 
                 {% for key,value in request.session.cart.items %}
                 <!-- Cart -->
@@ -240,15 +276,15 @@ E-Com Checkout
                         </div>
                         <span class="text-muted">Total ₹{{ value.price|multiply:value.quantity }}</span>
                     </li>
-                    
+
                     {% endfor %}
-<!-- End Of Showing All Cart Items -->
+                    <!-- End Of Showing All Cart Items -->
 
                     <br>
                     <li class="list-group-item d-flex justify-content-between  mt-2">
                         <span>Delivery Charges</span>
                         <span class="text-success">Free <del class="text-dark">₹70</del></span>
-                        
+
                     </li>
 
                     <li class="list-group-item d-flex justify-content-between bg-light">
@@ -292,8 +328,7 @@ E-Com Checkout
 
     <!--Call to action-->
     <div class="pt-4">
-        <a class="btn btn-outline-white" href="https://example.com/Ecomm"
-            target="_blank" role="button">Download Ecomm
+        <a class="btn btn-outline-white" href="https://example.com/Ecomm" target="_blank" role="button">Download Ecomm
             <i class="fas fa-download ml-2"></i>
         </a>
         <a class="btn btn-outline-white" href="https://https://example.com/Ecomm/tutorial" target="_blank"
@@ -355,4 +390,3 @@ E-Com Checkout
 
 
 {% endblock %}
-
