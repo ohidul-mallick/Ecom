@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponseRedirect,redirect
-from .models import Category,Products,Customer
+from .models import Category,Products,Customer,Order
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
@@ -12,7 +12,7 @@ from django.views import View
 from cart.cart import Cart
 import random
 from datetime import date
-
+from django.contrib.auth.models import User
 
 
 class Index(View):
@@ -169,38 +169,63 @@ def cart_detail(request):
 
 
 class checkoutView(View):
+
     def get(self,request):
         od=OrderForm()
         return render(request,'store/checkout.htm',{'orders':od})
     
     def post(self,request):
         od=OrderForm(request.POST)
+
         cart=request.session.get('cart')
         cartObj=cart.values()
+
         # print(cartObj)
         for item in cartObj:
             userid = item['userid']
             Price=item['price']
             Quantity=item['quantity']
+            productName=item['name']
+            product=Products.objects.get(name=productName)
 
 
-        print(userid)
-        print(Price)
-        print(Quantity)
-        customer=Customer.objects.filter(id=userid)
-        # print(customer)
-        for c in customer:
-            print(c)
-            print(' c name',c.email)
-        if od.is_valid():
-            fname=od.cleaned_data['first_name']
-            lname=od.cleaned_data['last_name']
-            email=od.cleaned_data['email']
-            address=od.cleaned_data['address']
-            phone=od.cleaned_data['phone']
-            dt=date.today()
-            
-            
-            # print(fname)
-        od=OrderForm()
-        return render(request,'store/checkout.htm',{'orders':od})
+            customer=User.objects.get(id=userid)
+            error_message=None
+            if od.is_valid():
+
+                
+                fname=od.cleaned_data['first_name'] 
+                lname=od.cleaned_data['last_name'] 
+                email=od.cleaned_data['email'] 
+                address=od.cleaned_data['address'] 
+                phone=od.cleaned_data['phone'] 
+                dt=date.today() 
+                # Error Message Section
+
+                if len(fname)<2 or len(lname)<2:
+                    error_message ='Enter Valid Name'
+                if len(phone)<6:
+                    error_message ='Enter Valid Phone Number'
+                if len(address)<6:
+                    error_message ='Enter Valid Address'
+                # End of Message Section
+                if not error_message:
+                    order=Order(product=product,customer=customer,first_name=fname,last_name=lname,email=email,quantity=Quantity,price=Price,address=address,phone=phone,date=dt)
+                    order.save()
+                    messages.success(request,'Account Created Successfully...')
+                else:
+                    print(error_message)
+                    print(len(fname))
+                    od=OrderForm()
+                    return render(request,'store/checkout.htm',{'error':error_message,'orders':od})
+            else:
+                error_message='Please Enter Valid Details'
+                od=OrderForm()
+                return render(request,'store/checkout.htm',{'error':error_message,'orders':od})
+
+
+
+@login_required(login_url="/login")
+def orderDetail(request):
+    order=Order.objects.all()
+    return render(request, 'store/order.htm',{'orders':order})

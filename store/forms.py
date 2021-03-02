@@ -16,6 +16,13 @@ class OrderForm(forms.ModelForm):
                     'address':forms.Textarea(attrs={'class':"form-control form-control-sm",'style':'resize:none;'}),
                     
                 }
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
+        self.fields['phone'].required = True
+        self.fields['address'].required = True
     
 
 # class LoginForm(forms.Form):
