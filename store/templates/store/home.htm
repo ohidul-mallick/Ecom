@@ -8,6 +8,13 @@
 
  {% load cart_tag %}
 
+
+ 
+ 
+
+
+
+
 <!-- messages Handling -->
 
  <div class="text-center font-weight-bold p-4">
@@ -46,6 +53,7 @@
 
              <div class="card mx-auto mt-3 pd-2" style="width: 15rem;">
                  <img src="{{product.image.url}}" class="card-img-top img-fluid " alt="...">
+                 
 
                  <div class="card-body ">
                      <h5 class="card-title">{{product.name|capfirst}}</h5>
@@ -82,15 +90,7 @@
                          {% endif %}
                      </div>
 
-
-
-
                  </div>
-
-
-
-
-
 
              </div>
              {% endfor %}

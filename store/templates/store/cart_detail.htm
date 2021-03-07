@@ -71,17 +71,18 @@ E-Com Home
     <div class="card wish-list mb-3 ps-5">
       <div class="card-body">
         {% for key,value in request.session.cart.items %}
-
+        {% for product in products %}
+        {% if product|equal:key %}
         <div class="row mb-4">
 
           <div class="row pb-5">
             <div class="col-md-5 col-lg-3 col-xl-3 ">
               <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                {% for product in products %}
-                {% if product|equal:key %}
+                <!-- {% for product in products %}
+                {% if product|equal:key %} -->
                 <img class="img-fluid img-thumbnail w-100" src="{{product.image.url}}" alt="Sample">
-                {% endif %}
-                {% endfor %}
+                <!-- {% endif %}
+                {% endfor %} -->
 
               </div>
             </div>
@@ -97,8 +98,8 @@ E-Com Home
                 <!-- Cart Increament / Decreament -->
 
                 <div class="btn-group float-right" role="group" aria-label="Basic example">
-                  {% for product in products %}
-                  {% if product|equal:key %}
+                  <!-- {% for product in products %}
+                  {% if product|equal:key %} -->
                   <a href="{% url 'item_decrement' product.id %}"><input type="submit" value=" - "
                       class="btn btn-light font-weight-bold"></a>
 
@@ -108,8 +109,8 @@ E-Com Home
                   <a href="{% url 'item_increment' product.id %}"><input type="submit" value=" + "
                       class="btn btn-light"></a>
 
-                  {% endif %}
-                  {% endfor %}
+                  <!-- {% endif %}
+                  {% endfor %} -->
 
                 </div>
 
@@ -122,8 +123,8 @@ E-Com Home
               <p class="mb-3 text-muted text-uppercase small">Price : {{value.price}}₹</p>
 
               <br>
-              {% for product in products %}
-              {% if product|equal:key %}
+              <!-- {% for product in products %}
+              {% if product|equal:key %} -->
               <div class="d-flex justify-content-between align-items-center">
 
                 <!-- Modal For Remove Product From Cart  -->
@@ -166,14 +167,16 @@ E-Com Home
 
                 <p class="mb-0"><span><strong>Total {{ value.price|multiply:value.quantity }}₹</strong></span></p>
               </div>
-              {% endif %}
-              {% endfor %}
+              <!-- {% endif %}
+              {% endfor %} -->
 
             </div>
 
           </div>
 
         </div>
+        {% endif %}
+              {% endfor %}
         {% endfor %}
         <hr class="mb-4">
 

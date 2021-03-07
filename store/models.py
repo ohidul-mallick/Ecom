@@ -15,10 +15,13 @@ class Category(models.Model):
 class Products(models.Model):
     name = models.CharField(max_length=50)
     price = models.FloatField()
+    seller=models.CharField(max_length=150,default='Not-Specified')
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     desc = models.TextField(max_length=500,null=True,blank=True)
     image = models.ImageField(upload_to='Image/Uploads')
+    color=models.CharField(max_length=15,blank=True,null=True,default='Not-Specified')
     objects = models.Manager()
+
 
     def __str__(self):
         return self.name

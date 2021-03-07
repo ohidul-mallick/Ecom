@@ -12,6 +12,7 @@ from django.views import View
 from cart.cart import Cart
 import random
 from datetime import date
+from django.conf import settings
 from django.contrib.auth.models import User
 
 
@@ -20,6 +21,7 @@ class Index(View):
 
     def get(self,request):
         product = None
+        
 
         categories=Category.objects.all()
         categoryID=request.GET.get('category')
@@ -204,7 +206,7 @@ class checkoutView(View):
 
                 if len(fname)<2 or len(lname)<2:
                     error_message ='Enter Valid Name'
-                if len(phone)<6:
+                if len(str(phone))<6:
                     error_message ='Enter Valid Phone Number'
                 if len(address)<6:
                     error_message ='Enter Valid Address'
@@ -212,10 +214,12 @@ class checkoutView(View):
                 if not error_message:
                     order=Order(product=product,customer=customer,first_name=fname,last_name=lname,email=email,quantity=Quantity,price=Price,address=address,phone=phone,date=dt)
                     order.save()
-                    messages.success(request,'Account Created Successfully...')
+                    del request.session[settings.CART_SESSION_ID]
+                    messages.success(request,'Order Placed Successfully...')
+                    return HttpResponseRedirect('/order/')
                 else:
-                    print(error_message)
-                    print(len(fname))
+                    # print(error_message)
+                    # print(len(fname))
                     od=OrderForm()
                     return render(request,'store/checkout.htm',{'error':error_message,'orders':od})
             else:
@@ -228,4 +232,8 @@ class checkoutView(View):
 @login_required(login_url="/login")
 def orderDetail(request):
     order=Order.objects.all()
-    return render(request, 'store/order.htm',{'orders':order})
+    product = Products.objects.all()
+
+    print(order.query)
+
+    return render(request, 'store/order.htm',{'products':product,'orders':order})
