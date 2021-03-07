@@ -237,3 +237,9 @@ def orderDetail(request):
     print(order.query)
 
     return render(request, 'store/order.htm',{'products':product,'orders':order})
+
+
+def profileDetail(request):
+    username=request.user.username
+    print(username)
+    return render(request,'store/profile.htm',{'name':username})

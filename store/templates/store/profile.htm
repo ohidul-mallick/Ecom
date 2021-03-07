@@ -1,0 +1,76 @@
+{% extends 'store/base.htm' %}
+{% load static %}
+{% block title %}
+My Profile
+{% endblock title %}
+
+<style>
+    ._user {
+        background-color: #fff;
+    }
+</style>
+
+
+{% block content %}
+
+{% load cart %}
+{% load cart_tag %}
+
+<br>
+<br>
+<br>
+<div class=" container">
+    <div class=" row">
+
+        <div style="background-color: #fff;" class="col-3 pe-0">
+            <div>
+                <div class="row shadow p-3 mb-5 bg-white rounded">
+                    <div class="col-4">
+                        <img class="rounded-circle bg-warning pt-1" height="60px" width="60px"
+                            src="{% static 'store/images/user.png' %}" alt="Customer Photo">
+                    </div>
+                    <div class="col-8">
+                        <small>Hello,</small>
+                        <div><strong>{{name|title}}</strong></div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div style="background-color: #fff;">
+                <div class="row">
+                    <div class="col-2">
+                        <h5><i class="fas fa-box text-primary"></i></h5>
+
+                    </div>
+
+                    <div class="col-10 d-flex position-relative justify-content-between">
+                        <a style="text-decoration: none;" class="stretched-link" href="/order/">
+                            <h5 class="text-muted">MY ORDERS</h5>
+                        </a>
+                        <span><i class="fas fa-chevron-right"></i></span>
+
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <div class="col-8 ">
+            <div class="">
+
+            </div>
+
+            <h1>Hello</h1>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock content %}
