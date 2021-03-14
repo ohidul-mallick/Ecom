@@ -1,4 +1,4 @@
-{% extends 'store/base.htm' %}
+{% extends 'store/base.html' %}
 
 
 {% block content %}
@@ -20,7 +20,8 @@
 
         <div class="col-sm-6 border rounded ">
             <h4 class="alert alert-info border rounded">Login To Your Account</h4>
-            <form action="" method="post" class="p-3" novalidate> {% csrf_token %}
+            <form action="" method="post" class="p-3" novalidate>
+                {% csrf_token %}
 
                 {% if form.non_field_errors %}
                 {% for error in form.non_field_errors %}

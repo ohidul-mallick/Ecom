@@ -1,0 +1,25 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}
+Password Change
+{% endblock title %}
+
+
+
+{% block content %}
+
+{% load cart %}
+{% load cart_tag %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<form action="" method="post">
+    {% for fm in form %}
+    {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br>
+    {% endfor %}
+</form>
+
+{% endblock content %}

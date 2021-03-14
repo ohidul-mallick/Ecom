@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path,include
 from store import views
+# from django.contrib.auth import views as auth_view
 
 
 from django.contrib.auth import views as auth_views
@@ -18,6 +19,9 @@ urlpatterns = [
     path('checkout/', views.checkoutView.as_view(),name='checkout'),
     path('order/', views.orderDetail,name='order'),
     path('profile/', views.profileDetail,name='profile'),
+
+
+    path('changepass/',auth_views.PasswordChangeView.as_view(template_name='store/changePass.htm'),name='changepass'),
 
 
     path('add/<int:id>/', views.cart_add, name='cart_add'),

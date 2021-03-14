@@ -29,7 +29,7 @@ class Index(View):
             product=Products.objects.filter(category=categoryID)
         else:
             product = Products.objects.all()
-        return render(request,'store/home.htm',{'products':product,'categories':categories})
+        return render(request,'store/home.html',{'products':product,'categories':categories})
 
 
 
@@ -65,10 +65,10 @@ def signUp(request):
                 return HttpResponseRedirect('/login/')
             else:
                 fm = SignupForm()
-                return render(request,'store/signup.htm',{'error':error_message,'form':fm})
+                return render(request,'store/signup.html',{'error':error_message,'form':fm})
     else:
         fm = SignupForm()
-    return render(request,'store/signup.htm',{'form':fm})
+    return render(request,'store/signup.html',{'form':fm})
 
     
 
@@ -87,7 +87,7 @@ def user_login(request):
                     return HttpResponseRedirect('/')
         else:
             form=LoginForm()
-        return render(request,'store/login.htm',{'form':form})
+        return render(request,'store/login.html',{'form':form})
     else:
         return HttpResponseRedirect('/')
 
@@ -105,7 +105,7 @@ def userLogout(request):
 
 
 def userlogoutView(request):
-    return render(request,'store/logoutView.htm')
+    return render(request,'store/logoutView.html')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -163,7 +163,7 @@ def cart_clear(request):
 @login_required(login_url="/login")
 def cart_detail(request):
     product=Products.objects.all()
-    return render(request, 'store/cart_detail.htm',{'products':product})
+    return render(request, 'store/cart_detail.html',{'products':product})
 
 
 
@@ -174,7 +174,7 @@ class checkoutView(View):
 
     def get(self,request):
         od=OrderForm()
-        return render(request,'store/checkout.htm',{'orders':od})
+        return render(request,'store/checkout.html',{'orders':od})
     
     def post(self,request):
         od=OrderForm(request.POST)
@@ -221,11 +221,11 @@ class checkoutView(View):
                     # print(error_message)
                     # print(len(fname))
                     od=OrderForm()
-                    return render(request,'store/checkout.htm',{'error':error_message,'orders':od})
+                    return render(request,'store/checkout.html',{'error':error_message,'orders':od})
             else:
                 error_message='Please Enter Valid Details'
                 od=OrderForm()
-                return render(request,'store/checkout.htm',{'error':error_message,'orders':od})
+                return render(request,'store/checkout.html',{'error':error_message,'orders':od})
 
 
 
@@ -236,10 +236,10 @@ def orderDetail(request):
 
     print(order.query)
 
-    return render(request, 'store/order.htm',{'products':product,'orders':order})
+    return render(request, 'store/order.html',{'products':product,'orders':order})
 
 
 def profileDetail(request):
     username=request.user.username
     print(username)
-    return render(request,'store/profile.htm',{'name':username})
+    return render(request,'store/profile.html',{'name':username})
