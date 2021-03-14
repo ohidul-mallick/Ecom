@@ -15,6 +15,12 @@ from datetime import date
 from django.conf import settings
 from django.contrib.auth.models import User
 
+class Home(View):
+    def get(self,request):
+        return render(request,'store/home_copy.html')
+
+
+
 
 class Index(View):
 
